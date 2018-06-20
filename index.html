@@ -1,0 +1,60 @@
+<html>
+    <head>
+        <title>Teste</title>
+    </head>
+    <body>
+        <div class="avatar">
+            <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" height="400px" width="250px"></canvas>
+        </div>
+
+        <iframe src="http://player.vimeo.com/video/12345?title=1&amp;byline=1&amp;portrait=1&amp;autoplay=true" width="643" height="360" frameborder="0"></iframe>
+
+
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script src="https://www.projetogiulia.com.br/translate/api.js"></script>
+        <script src="https://player.vimeo.com/api/player.js"></script>
+        <script>
+            var legendas = null;
+            $.get("legendas.txt", function(response) {
+                 legendas = response;
+                 console.log(legendas)
+            });
+            // $.get("http://localhost:8000/api/aulas/1/", function(data, status){
+            //     console.log('data', data.attachments[0].legendas);
+            //     legendas = data.attachments[0].legendas;
+            // });
+
+            var iframe = document.querySelector('iframe');
+            var player = new Vimeo.Player(iframe);
+
+            var giulia = new Giulia();
+
+            function isLoaded(val){
+                console.log('isLoaded', val);
+            }
+
+            player.on('play', function() {
+                // var giulia = new Giulia();
+                // giulia.readText('Meu nome é Giulia');
+                for (var l in legendas){
+                    //if(data.seconds > l.start){
+                        console.log(l.text);
+                    //}
+                 }
+            });
+
+            player.on('timeupdate', function(data){
+                //for (var l in legendas){
+                    // if(data.seconds > l.start){
+                         //console.log(l.text);
+                    // }
+                // }
+                // console.log('timeupdate', data)
+            });
+
+            player.getVideoTitle().then(function(title) {
+                console.log('title:', title);
+            });
+        </script>
+    </body>
+</html>
